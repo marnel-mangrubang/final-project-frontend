@@ -13,12 +13,14 @@ export default class Form extends React.Component {
   handleChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value })
   }
+  
 
   handleSubmit = (e) => {
     e.preventDefault()
 
-
     this.props.onSubmit(this.state)
+
+
   }
 
   render () {

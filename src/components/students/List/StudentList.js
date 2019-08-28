@@ -1,7 +1,7 @@
 import React from 'react'
 import './StudentList.css'
 
-// const StudentList = ({ students, isAdmin, calculateStudentGrade }) => {
+
   class StudentList extends React.Component {
 
   constructor (props) {
@@ -11,7 +11,6 @@ import './StudentList.css'
       score_above: '',
       score_below:''
     }
-
 
   }
 
@@ -24,8 +23,6 @@ import './StudentList.css'
   handleSubmit = (e) => {
     e.preventDefault()
     this.props.onSubmit(this.state)
-
-    // this.props.history.push('/users')
   }
 
 
@@ -64,7 +61,7 @@ render () {
       students.map((student) => {
         let student_grade = 0
         if(student.myscore !== 0  && student.totalgrade !== 0){
-          student_grade = (student.myscore/student.totalgrade)*100
+          student_grade = Math.floor((student.myscore/student.totalgrade)*100)
         }
 
         let grade_color = ''
@@ -93,7 +90,6 @@ render () {
                   {student_grade}/100
                   </span>
                 </div>
-                // <div className="col-sm-1 col-xs-1">{student.myscore}/{student.totalgrade}</div>
               ):(
                 <div></div>
               )

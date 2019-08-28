@@ -7,7 +7,6 @@ const AssignmentList = ({ loggedInUserID, assignments, onSubmit }) => {
     <div className='assignments-list'>
 
       {
-
         assignments.map((grade) => {
           return(
 
@@ -22,7 +21,6 @@ const AssignmentList = ({ loggedInUserID, assignments, onSubmit }) => {
                   <ScoreForm grade={grade} onSubmit={onSubmit} />
                 </div>
               </div>
-
 
             </div>
 

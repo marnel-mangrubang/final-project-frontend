@@ -17,8 +17,6 @@ class Form extends React.Component {
   }
 
   handleChange =  ({ target: { name, value } }) => {
-
-
     this.setState({
       [name]: value,
       firstnameAlert: false,

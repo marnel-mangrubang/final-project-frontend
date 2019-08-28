@@ -123,7 +123,7 @@ export const updateScore = async (assignment) => {
     body:JSON.stringify(assignment)
   })
   const json = await response.json()
-  // console.log(json)
+  console.log('updateScore', json)
   return json
 
 }

@@ -71,7 +71,7 @@ export const updateTotalGrade = async (assignment, newtotal) => {
     body:JSON.stringify({"totalgrade":newtotal})
   })
   const json = await response.json()
-  // console.log(json)
+  console.log('json', json)
   return json
 
 }

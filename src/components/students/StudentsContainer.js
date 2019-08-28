@@ -43,6 +43,8 @@ class StudentsContainer extends React.Component {
 
      const studentassignments = await assignmentapi.getStudentAssignment(loggedInUserID)
 
+
+
      const justuserinfo = allusers.user.map((individual_user) => {
        return individual_user;
      })
@@ -77,9 +79,9 @@ class StudentsContainer extends React.Component {
        deletedAlert: false
      })
 
-
      this.getAllAssignments()
      this.calculateStudentGrade()
+
    }
 
 
@@ -100,6 +102,7 @@ getAllAssignments = async () => {
    const { loggedInUserID } = this.props
    const { allstudents } = this.state
 
+
    allstudents.map((student) => {
 
      if(student.assignments.length > 0){
@@ -111,14 +114,10 @@ getAllAssignments = async () => {
            student_last: student.lastname,
            student_id: student._id
          })
-
-
        })
-
      }
 
    })
-
 
 
    const ungraded = all_assignments.filter((nograde) => {
@@ -129,13 +128,14 @@ getAllAssignments = async () => {
      return withgrade.received !== 0
    })
 
+console.log("BACK INSIDE THE getALL ASSIGNMENTS", graded, ungraded)
+
    const getAssignmentsAgain = await assignmentapi.getStudentAssignment(loggedInUserID)
    this.setState({
      currentStudentsAssignments: getAssignmentsAgain.assignment,
      allAssignments:all_assignments,
      ungraded: ungraded,
-     graded: graded,
-     loading:false
+     graded: graded
    })
 }
 
@@ -169,8 +169,9 @@ editAssignment = async (assignment) => {
 
 saveScore = async (assignment) => {
 
-  const { history } = this.props
+  const { history, getAllAssignments } = this.props
   await assignmentapi.updateScore(assignment)
+  console.log('updateScore is finished')
 
 
   const received = parseInt(assignment.received)
@@ -180,23 +181,26 @@ saveScore = async (assignment) => {
 
 
   if(onestudent){
+    let newtotal
     if(received === 0 && score === 0){
-      const newtotal = onestudent.totalgrade - parseInt(assignment.received)
-      await api.updateTotalGrade(assignment, newtotal)
+      newtotal = onestudent.totalgrade - parseInt(assignment.received)
     }else{
-      const newtotal = onestudent.totalgrade + parseInt(assignment.received)
-      await api.updateTotalGrade(assignment, newtotal)
+      newtotal = onestudent.totalgrade + parseInt(assignment.received)
+
     }
 
+    await api.updateTotalGrade(assignment, newtotal)
+    console.log('updateTotalGrade is finished')
+    setTimeout(() => {
+        this.getAllAssignments()
+    }, 3000)
+
+    history.push(`/`)
   }
 
+  this.setState({loading:false})
 
-  await this.getAllAssignments()
 
-  this.setState({
-    loading:false
-  })
-  history.push(`/`)
 }
 
 
@@ -232,9 +236,6 @@ calculateStudentGrade = async (param) => {
         tempallstudents:allstudentscopy
       })
     }
-
-
-
 
   }
 
